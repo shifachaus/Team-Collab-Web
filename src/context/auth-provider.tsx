@@ -1,3 +1,4 @@
+import useWorkspaceId from "@/hooks/use-workspace-id";
 import { createContext, useContext, useEffect } from "react";
 
 type AuthContextType = {
@@ -9,7 +10,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const workspaceId = "";
+  const workspaceId = useWorkspaceId();
 
   useEffect(() => {});
   return (
