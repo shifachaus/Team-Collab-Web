@@ -34,7 +34,7 @@ export type UserType = {
   };
 };
 
-export type UserResponseType = {
-    message: string;
-    user: UserType
-  };
+export type CurrentUserResponseType = {
+  message: string;
+  user: UserType;
+};
