@@ -1,11 +1,11 @@
-import React from "react";
+import { AuthProvider } from "@/context/auth-provider";
 import { Outlet } from "react-router-dom";
 
 const AppLayout = () => {
   return (
-    <div>
+    <AuthProvider>
       <Outlet />
-    </div>
+    </AuthProvider>
   );
 };
 
