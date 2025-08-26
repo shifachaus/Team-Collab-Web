@@ -2,6 +2,12 @@ import SignIn from "@/pages/auth/Sign-in";
 import { AUTH_ROUTES, BASE_ROUTE, PROTECTED_ROUTES } from "./routePaths";
 import SignUp from "@/pages/auth/Sign-up";
 import GoogleOAuthFailure from "@/pages/auth/GoogleOAuthFailure";
+import InviteUser from "@/pages/invite/InviteUser";
+import ProjectDetails from "@/pages/workspace/ProjectDetails";
+import Settings from "@/pages/workspace/Settings";
+import Members from "@/pages/workspace/Members";
+import Tasks from "@/pages/workspace/Tasks";
+import WorkspaceDashboard from "@/pages/workspace/Dashboard";
 
 export const authenticationRoutePaths = [
   {
@@ -23,33 +29,33 @@ export const authenticationRoutePaths = [
 export const protectedRoutePaths = [
   {
     path: PROTECTED_ROUTES.WORKSPACE,
-    element: <></>,
+    element: <WorkspaceDashboard/>,
   },
 
   {
     path: PROTECTED_ROUTES.TASKS,
-    element: <></>,
+    element: <Tasks/>,
   },
 
   {
     path: PROTECTED_ROUTES.MEMBERS,
-    element: <></>,
+    element: <Members/>,
   },
 
   {
     path: PROTECTED_ROUTES.SETTINGS,
-    element: <></>,
+    element: <Settings/>,
   },
 
   {
     path: PROTECTED_ROUTES.PROJECT_DETAILS,
-    element: <></>,
+    element: <ProjectDetails/>,
   },
 ];
 
 export const baseRoutePath = [
   {
     path: BASE_ROUTE.INVITE_URL,
-    element: <></>,
+    element: <InviteUser/>,
   },
 ];
