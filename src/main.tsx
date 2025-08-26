@@ -4,11 +4,14 @@ import { NuqsAdapter } from "nuqs/adapters/react";
 
 import "./index.css";
 import App from "./App.tsx";
+import QueryProvider from "./context/query-provider.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <NuqsAdapter>
-      <App />
-    </NuqsAdapter>
+    <QueryProvider>
+      <NuqsAdapter>
+        <App />
+      </NuqsAdapter>
+    </QueryProvider>
   </StrictMode>
 );
