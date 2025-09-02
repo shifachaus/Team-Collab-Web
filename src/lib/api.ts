@@ -23,8 +23,7 @@ export const loginMutationFn = async (
   return response.data;
 };
 
-export const logoutMutationFn = async () => {};
-
+export const logoutMutationFn = async () => await API.post("/auth/logout");
 
 export const getWorkspaceByIdQueryFn = async (
   workspaceId: string

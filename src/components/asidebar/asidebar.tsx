@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import useWorkspaceId from "@/hooks/use-workspace-id";
 import {
@@ -10,6 +11,7 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
   SidebarFooter,
+  useSidebar,
 } from "@/components/ui/sidebar";
 
 import {
@@ -28,23 +30,28 @@ import WorkspaceSwitcher from "./workspace-switcher";
 import { Separator } from "../ui/separator";
 import NavMain from "./nav-main";
 import NavProjects from "./nav-projects";
+import LogoutDialog from "./logout-dialog";
 
 const Asidebar = () => {
   const { isLoading, user } = useAuthContext();
   const workspaceId = useWorkspaceId();
 
-  console.log(user);
+  const { open } = useSidebar();
+
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <>
       <Sidebar collapsible="icon">
         <SidebarHeader className="!py-0 dark:bg-background">
-          <Link
-            to={`/workspace/${workspaceId}`}
-            className="hidden md:flex ml-2 items-center gap-2 self-center font-medium"
-          >
-            Team Collab.
-          </Link>
+          {open && (
+            <Link
+              to={`/workspace/${workspaceId}`}
+              className="hidden md:flex ml-2 items-center gap-2 self-center font-medium"
+            >
+              Team Collab.
+            </Link>
+          )}
         </SidebarHeader>
         <SidebarContent className=" !mt-0 dark:bg-background">
           <SidebarGroup className="!py-0">
@@ -102,7 +109,7 @@ const Asidebar = () => {
                   >
                     <DropdownMenuGroup></DropdownMenuGroup>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem>
+                    <DropdownMenuItem onClick={()=>setIsOpen(true)}>
                       <LogOut />
                       Log out
                     </DropdownMenuItem>
@@ -113,6 +120,8 @@ const Asidebar = () => {
           </SidebarMenu>
         </SidebarFooter>
       </Sidebar>
+
+      <LogoutDialog isOpen={isOpen} setIsOpen={setIsOpen} />
     </>
   );
 };
