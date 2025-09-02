@@ -32,4 +32,4 @@ export const Permission = {
   VIEW_ONLY: "VIEW_ONLY",
 } as const;
 
-export type Permission = keyof typeof Permission;
+export type PermissionType = keyof typeof Permission;

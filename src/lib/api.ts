@@ -3,6 +3,7 @@ import type {
   LoginResponseType,
   LoginType,
   RegisterType,
+  WorkspaceByIdResponseType,
 } from "@/types/api.type";
 import API from "./axios-client";
 
@@ -23,3 +24,11 @@ export const loginMutationFn = async (
 };
 
 export const logoutMutationFn = async () => {};
+
+
+export const getWorkspaceByIdQueryFn = async (
+  workspaceId: string
+): Promise<WorkspaceByIdResponseType> => {
+  const response = await API.get(`/workspace/${workspaceId}`);
+  return response.data;
+};
