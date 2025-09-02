@@ -1,3 +1,10 @@
+import { Link, useNavigate } from "react-router-dom";
+import { Loader } from "lucide-react";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import { registerMutationFn } from "@/lib/api";
 import {
   Card,
   CardContent,
@@ -13,21 +20,51 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Link } from "react-router-dom";
-import { Loader } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useForm } from "react-hook-form";
 import GoogleOauthButton from "@/components/auth/google-oauth-button";
 
 const SignUp = () => {
-  const form = useForm({
+  const navigate = useNavigate();
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: registerMutationFn,
+  });
+
+  const formSchema = z.object({
+    name: z.string().trim().min(1, {
+      message: "Name is required",
+    }),
+    email: z.string().trim().email("Invalid email address").min(1, {
+      message: "Workspace name is required",
+    }),
+    password: z.string().trim().min(1, {
+      message: "Password is required",
+    }),
+  });
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
       email: "",
       password: "",
     },
   });
+
+  const onSubmit = (values: z.infer<typeof formSchema>) => {
+    if (isPending) return;
+
+    mutate(values, {
+      onSuccess: () => {
+        navigate("/");
+      },
+
+      onError: (error) => {
+        console.log(error);
+      },
+    });
+  };
 
   return (
     <div className="flex min-h-svh flex-col items-center justify-center gap-6 p-6 md:p-10">
@@ -48,10 +85,10 @@ const SignUp = () => {
             </CardHeader>
             <CardContent>
               <Form {...form}>
-                <form>
+                <form onSubmit={form.handleSubmit(onSubmit)}>
                   <div className="grid gap-6">
                     <div className="flex flex-col gap-4">
-                    <GoogleOauthButton label="Signup" />
+                      <GoogleOauthButton label="Signup" />
                     </div>
 
                     <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
@@ -138,16 +175,18 @@ const SignUp = () => {
                         />
                       </div>
 
-                      <Button disabled type="submit" className="w-full">
-                        <Loader className="animate-spin" />
+                      <Button
+                        disabled={isPending}
+                        type="submit"
+                        className="w-full"
+                      >
+                        {isPending && <Loader className="animate-spin" />}
+                        Sign up
                       </Button>
                     </div>
                     <div className="text-center text-sm">
                       Don&apos;t have an account?{" "}
-                      <Link
-                        to="/"
-                        className="underline underline-offset-4"
-                      >
+                      <Link to="/" className="underline underline-offset-4">
                         Sign in
                       </Link>
                     </div>
