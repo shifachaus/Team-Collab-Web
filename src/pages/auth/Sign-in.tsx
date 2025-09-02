@@ -16,17 +16,54 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { loginMutationFn } from "@/lib/api";
+import { useMutation } from "@tanstack/react-query";
 import { Loader } from "lucide-react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 const SignIn = () => {
-  const form = useForm({
+  const navigate = useNavigate();
+  const [serachParams] = useSearchParams();
+  const returnUrl = serachParams.get("returnUrl");
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: loginMutationFn,
+  });
+
+  const formSchema = z.object({
+    email: z.string().trim().email("Invalid email address").min(1, {
+      message: "Workspace name is required",
+    }),
+
+    password: z.string().trim().min(1, {
+      message: "Password is required",
+    }),
+  });
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
     defaultValues: {
       email: "",
       password: "",
     },
   });
+
+  const onSubmit = (values: z.infer<typeof formSchema>) => {
+    if (isPending) return;
+
+    mutate(values, {
+      onSuccess: (data) => {
+        const user = data.user;
+        console.log(user);
+        const decodeUrl = returnUrl ? decodeURIComponent(returnUrl) : null;
+        navigate(decodeUrl || `/workspace/${user.currentWorkspace}`);
+      },
+      onError: (error) => {},
+    });
+  };
   return (
     <div className="flex min-h-svh flex-col items-center justify-center gap-6 p-6 md:p-10">
       <div className="flex w-full max-w-sm flex-col gap-6">
@@ -46,10 +83,10 @@ const SignIn = () => {
             </CardHeader>
             <CardContent>
               <Form {...form}>
-                <form>
+                <form onSubmit={form.handleSubmit(onSubmit)}>
                   <div className="grid gap-6">
                     <div className="flex flex-col gap-4">
-                    <GoogleOauthButton label="Login" />
+                      <GoogleOauthButton label="Login" />
                     </div>
 
                     <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
@@ -113,8 +150,12 @@ const SignIn = () => {
                         />
                       </div>
 
-                      <Button disabled type="submit" className="w-full">
-                        <Loader className="animate-spin" />
+                      <Button
+                        disabled={isPending}
+                        type="submit"
+                        className="w-full"
+                      >
+                        {isPending && <Loader className="animate-spin" />} Login
                       </Button>
                     </div>
                     <div className="text-center text-sm">

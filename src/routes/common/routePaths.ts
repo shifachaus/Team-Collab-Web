@@ -18,5 +18,5 @@ export const PROTECTED_ROUTES = {
 };
 
 export const BASE_ROUTE={
-    INVITE_URL:"invite/workspace/:inviteCode/join"
+    INVITE_URL:"/invite/workspace/:inviteCode/join"
 }
