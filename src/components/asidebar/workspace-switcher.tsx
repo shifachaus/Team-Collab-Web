@@ -30,32 +30,34 @@ type WorkspaceType = {
 const WorkspaceSwitcher = () => {
   const navigate = useNavigate();
   const { isMobile } = useSidebar();
-
   const { onOpen } = useCreateWorkspaceDialog();
   const workspaceId = useWorkspaceId();
 
   const [activeWorkspace, setActiveWorkspace] = useState<WorkspaceType>();
 
   const { data, isPending } = useQuery({
-    queryKey: ["useWorkspaces"],
+    queryKey: ["userWorkspaces"],
     queryFn: getAllWorkspacesUserIsMemberQueryFn,
     staleTime: 1,
     refetchOnMount: true,
   });
 
-  const workspaces = data?.workspaces;
+  const workspaces = (data?.workspaces || []).filter((ws) =>
+    Boolean(ws && ws._id && ws.name)
+  );
 
   //  SET ACTIVE WORKSPACE
   useEffect(() => {
-    if (workspaces?.length) {
-      const workspace = workspaceId
-        ? workspaces.find((ws) => ws._id === workspaceId)
-        : workspaces[0];
-
-      if (workspace) {
-        setActiveWorkspace(workspace);
-
-        if (!workspaceId) navigate(`/workspace/${workspace._id}`);
+    if (!workspaces?.length) return;
+  
+    const found = workspaces.find((ws) => ws._id === workspaceId);
+    const workspace = found || workspaces[0];
+  
+    if (workspace) {
+      setActiveWorkspace(workspace);
+  
+      if (!workspaceId || !found) {
+        navigate(`/workspace/${workspace._id}`);
       }
     }
   }, [workspaceId, workspaces, navigate]);
@@ -69,7 +71,10 @@ const WorkspaceSwitcher = () => {
     <>
       <SidebarGroupLabel className="w-full justify-between pr-0">
         <span>Workspaces</span>
-        <button className="flex size-5 items-center justify-center rounded-full border">
+        <button
+          onClick={onOpen}
+          className="flex size-5 items-center justify-center rounded-full border"
+        >
           <Plus className="size-3.5" />
         </button>
       </SidebarGroupLabel>
@@ -116,28 +121,23 @@ const WorkspaceSwitcher = () => {
               </DropdownMenuLabel>
               {isPending ? <Loader className=" w-5 h-5 animate-spin" /> : null}
 
-              {workspaces
-                ?.filter((ws) => Boolean(ws && ws.name))
-                .map((workspace) => {
-                  return (
-                    <DropdownMenuItem
-                      key={workspace._id}
-                      onClick={() => onSelect(workspace)}
-                      className="gap-2 p-2 !cursor-pointer"
-                    >
-                      <div className="flex size-6 items-center justify-center rounded-sm border">
-                        {workspace.name.split(" ")[0]?.charAt(0)}
-                      </div>
-                      {workspace.name}
-  
-                      {workspace._id === workspaceId && (
-                        <DropdownMenuShortcut className="tracking-normal !opacity-100">
-                          <Check className="w-4 h-4" />
-                        </DropdownMenuShortcut>
-                      )}
-                    </DropdownMenuItem>
-                  )
-                })}
+              {workspaces.map((workspace) => (
+                <DropdownMenuItem
+                  key={workspace._id}
+                  onClick={() => onSelect(workspace)}
+                  className="gap-2 p-2 !cursor-pointer"
+                >
+                  <div className="flex size-6 items-center justify-center rounded-sm border">
+                    {workspace.name.split(" ")[0]?.charAt(0)}
+                  </div>
+                  {workspace.name}
+                  {workspace._id === workspaceId && (
+                    <DropdownMenuShortcut className="tracking-normal !opacity-100">
+                      <Check className="w-4 h-4" />
+                    </DropdownMenuShortcut>
+                  )}
+                </DropdownMenuItem>
+              ))}
 
               <DropdownMenuSeparator />
               <DropdownMenuItem

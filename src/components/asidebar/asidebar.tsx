@@ -11,9 +11,8 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
   SidebarFooter,
-  useSidebar,
+  // useSidebar,
 } from "@/components/ui/sidebar";
-
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -22,7 +21,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { EllipsisIcon, Loader, LogOut } from "lucide-react";
 import { useAuthContext } from "@/context/auth-provider";
@@ -36,7 +34,7 @@ const Asidebar = () => {
   const { isLoading, user } = useAuthContext();
   const workspaceId = useWorkspaceId();
 
-  const { open } = useSidebar();
+  // const { open } = useSidebar();
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -44,14 +42,14 @@ const Asidebar = () => {
     <>
       <Sidebar collapsible="icon">
         <SidebarHeader className="!py-0 dark:bg-background">
-          {open && (
+          <div className="flex h-[50px] items-center justify-start w-full px-1">
             <Link
               to={`/workspace/${workspaceId}`}
-              className="hidden md:flex ml-2 items-center gap-2 self-center font-medium"
+              className="flex ml-2 items-center gap-2 self-center font-medium"
             >
               Team Collab.
             </Link>
-          )}
+          </div>
         </SidebarHeader>
         <SidebarContent className=" !mt-0 dark:bg-background">
           <SidebarGroup className="!py-0">
@@ -81,12 +79,8 @@ const Asidebar = () => {
                       className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
                     >
                       <Avatar className="h-8 w-8 rounded-full">
-                        <AvatarImage
-                          src={
-                            user?.profilePicture ||
-                            "https://i.pravatar.cc/150?img=2"
-                          }
-                        />
+                        <AvatarImage src={user?.profilePicture || ""} />
+
                         <AvatarFallback className="rounded-full border border-gray-500">
                           {user?.name?.split(" ")?.[0]?.charAt(0)}
                           {user?.name?.split(" ")?.[1]?.charAt(0)}
@@ -109,7 +103,7 @@ const Asidebar = () => {
                   >
                     <DropdownMenuGroup></DropdownMenuGroup>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem onClick={()=>setIsOpen(true)}>
+                    <DropdownMenuItem onClick={() => setIsOpen(true)}>
                       <LogOut />
                       Log out
                     </DropdownMenuItem>

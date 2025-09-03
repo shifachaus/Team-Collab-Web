@@ -1,6 +1,7 @@
 import Asidebar from "@/components/asidebar/asidebar";
 import Header from "@/components/header";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import CreateWorkspaceDialog from "@/components/worksapce/create-workspace-dialog";
 import { AuthProvider } from "@/context/auth-provider";
 import { Outlet } from "react-router-dom";
 
@@ -17,6 +18,7 @@ const AppLayout = () => {
                 <Outlet />
               </div>
             </>
+            <CreateWorkspaceDialog />
           </div>
         </SidebarInset>
       </SidebarProvider>

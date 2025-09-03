@@ -54,10 +54,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   }, [navigate, workspaceError]);
 
-  const permission = usePermissions(user, workspace);
+  const permissions = usePermissions(user, workspace);
 
   const hasPermission = (permission: PermissionType): boolean => {
-    return permission.includes(permission);
+    return permissions.includes(permission);
   };
 
   return (
