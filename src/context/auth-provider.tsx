@@ -64,13 +64,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     <AuthContext.Provider
       value={{
         user,
+        workspace,
+        hasPermission,
+        error: authError || workspaceError,
         isLoading,
         isFetching,
         workspaceLoading,
         refetchAuth,
         refetchWorkspace,
-        hasPermission,
-        error: authError || workspaceError,
       }}
     >
       {children}

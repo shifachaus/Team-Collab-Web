@@ -1,37 +1,41 @@
+import { useAuthContext } from "@/context/auth-provider";
+import { Permission } from "@/constant";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import useWorkspaceId from "@/hooks/use-workspace-id";
+import { editeWorkspaceMutationFn } from "@/lib/api";
+import { Loader } from "lucide-react";
 import { z } from "zod";
-import { useNavigate } from "react-router-dom";
+
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "../ui/form";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createWorkspaceMutationFn } from "@/lib/api";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Input } from "../ui/input";
-import { Textarea } from "../ui/textarea";
-import { Button } from "../ui/button";
-import { Loader } from "lucide-react";
+import { useEffect } from "react";
 
-const WorkspaceForm = ({ onClose }: { onClose: () => void }) => {
-  const navigate = useNavigate();
+const EditWorkspaceForm = () => {
+  const { workspace, hasPermission } = useAuthContext();
+  const canEditWorkspace = hasPermission(Permission.EDIT_PROJECT);
 
   const queryClient = useQueryClient();
+  const workspaceId = useWorkspaceId();
 
   const { mutate, isPending } = useMutation({
-    mutationFn: createWorkspaceMutationFn,
+    mutationFn: editeWorkspaceMutationFn,
   });
 
   const formSchema = z.object({
     name: z.string().trim().min(1, {
       message: "Workspace name is required",
     }),
-
     description: z.string().trim(),
   });
 
@@ -43,40 +47,46 @@ const WorkspaceForm = ({ onClose }: { onClose: () => void }) => {
     },
   });
 
+  useEffect(() => {
+    if (workspace) {
+      form.setValue("name", workspace.name);
+      form.setValue("description", workspace?.description || "");
+    }
+  }, [form, workspace]);
+
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     if (isPending) return;
-    mutate(values, {
-      onSuccess: (data) => {
-        queryClient.resetQueries({
-          queryKey: ["userWorkspaces"],
+    const payload = {
+      workspaceId: workspaceId,
+      data: { ...values },
+    };
+
+    mutate(payload, {
+      onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: ["workspace"],
         });
 
-        const workspace = data.workspace;
-        console.log(workspace, "JJJ");
-
-        onClose();
-        navigate(`/workspace/${workspace._id}`);
+        queryClient.invalidateQueries({
+          queryKey: ["userWorkspaces"],
+        });
       },
+
       onError: (error) => {},
     });
   };
 
   return (
-    <main className="w-full flex flex-row min-h-[590px] h-auto max-w-full">
-      <div className="h-full px-10 py-10 flex-1">
-        <div className="mb-5">
+    <div className="w-full h-auto max-w-full">
+      <div className="h-full">
+        <div className="mb-5 border-b">
           <h1
-            className="text-2xl tracking-[-0.16px] dark:text-[#fcfdffef] font-semibold mb-1.5
-           text-center sm:text-left"
+            className="text-[17px] tracking-[-0.16px] dark:text-[#fcfdffef] font-semibold mb-1.5
+         text-center sm:text-left"
           >
-            Let's build a Workspace
+            Edit Workspace
           </h1>
-          <p className="text-muted-foreground text-lg leading-tight">
-            Boost your productivity by making it easier for everyone to access
-            projects in one location.
-          </p>
         </div>
-
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <div className="mb-4">
@@ -90,20 +100,17 @@ const WorkspaceForm = ({ onClose }: { onClose: () => void }) => {
                     </FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="Burger's Co."
-                        className="!h-[48px]"
+                        placeholder="Taco's Co."
+                        className="!h-[48px] disabled:opacity-90 disabled:pointer-events-none"
+                        disabled={!canEditWorkspace}
                         {...field}
                       />
                     </FormControl>
-                    <FormDescription>
-                      This is the name of your company, team or organization.
-                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
               />
             </div>
-
             <div className="mb-4">
               <FormField
                 control={form.control}
@@ -119,38 +126,32 @@ const WorkspaceForm = ({ onClose }: { onClose: () => void }) => {
                     <FormControl>
                       <Textarea
                         rows={6}
+                        disabled={!canEditWorkspace}
+                        className="disabled:opacity-90 disabled:pointer-events-none"
                         placeholder="Our team organizes marketing projects and tasks here."
                         {...field}
                       />
                     </FormControl>
-                    <FormDescription>
-                      Get your members on board with a few words about your
-                      Workspace.
-                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
               />
             </div>
-            <Button
-              disabled={isPending}
-              className="w-full h-[40px] text-white font-semibold"
-              type="submit"
-            >
-              {isPending && <Loader className="animate-spin" />}
-              Create Workspace
-            </Button>
+            {canEditWorkspace && (
+              <Button
+                className="flex place-self-end  h-[40px] text-white font-semibold"
+                disabled={isPending}
+                type="submit"
+              >
+                {isPending && <Loader className="animate-spin" />}
+                Update Workspace
+              </Button>
+            )}
           </form>
         </Form>
       </div>
-      {/* 
-      <div
-  className="relative flex-1 shrink-0 hidden md:block bg-muted 
-             bg-[url(https://unsplash.com/photos/a-laptop-computer-sitting-on-top-of-a-wooden-table-m9LTe7mXJR0)] 
-             bg-cover bg-center h-full"
-/> */}
-    </main>
+    </div>
   );
 };
 
-export default WorkspaceForm;
+export default EditWorkspaceForm;
