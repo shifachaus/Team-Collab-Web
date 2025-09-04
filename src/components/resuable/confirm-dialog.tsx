@@ -49,7 +49,7 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
         {children && <div className="py-4">{children}</div>}
 
         <DialogFooter>
-          <Button variant="outline" onClick={handleClose}>
+          <Button variant="secondary" onClick={handleClose}>
             {cancelText}
           </Button>
           <Button onClick={onConfirm} disabled={isLoading}>

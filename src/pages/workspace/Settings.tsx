@@ -1,3 +1,4 @@
+import WorkspaceHeader from "@/components/worksapce/common/workspace-header";
 import EditWorkspaceForm from "@/components/worksapce/edit-workspace-form";
 import DeleteWorkspaceCard from "@/components/worksapce/settings/delete-workspace-card";
 import { Permission } from "@/constant";
@@ -6,6 +7,7 @@ import withPermission from "@/hoc/with-permission";
 const Settings = () => {
   return (
     <div className="w-full h-auto py-2">
+         <WorkspaceHeader />
       <main>
         <div className="w-full mx-w-3xl mx-auto py-3">
           <h2 className="text-[20px] leading-[30px] font-semibold mb-3">
