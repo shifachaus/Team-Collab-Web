@@ -52,7 +52,7 @@ export const deleteWorkspaceMutationFn = async (
   message: string;
   currentWorkspace: string;
 }> => {
-  const response = await API.put(`/workspace/delete/${workspaceId}`);
+  const response = await API.delete(`/workspace/delete/${workspaceId}`);
   return response.data;
 };
 
