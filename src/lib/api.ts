@@ -1,6 +1,8 @@
 import type {
+  AllMembersInWorkspaceResponseType,
   AllWorkspaceResponseType,
   AnalyticsResponseType,
+  ChangeWorkspaceMemberRoleType,
   CreateWorkspaceResponseType,
   CreateWorkspaceType,
   CurrentUserResponseType,
@@ -76,6 +78,15 @@ export const getWorkspaceAnalyticsQueryFn = async (
   const response = await API.get(`/workspace/analytics/${workspaceId}`);
   return response.data;
 };
+
+export const getMembersInWorkspaceQueryFn = async (
+  workspaceId: string
+): Promise<AllMembersInWorkspaceResponseType> => {
+  const response = await API.get(`/workspace/members/${workspaceId}`);
+  return response.data;
+};
+
+export const changeWorkspaceMemberRoleMutationFn = async () => {};
 
 //*******MEMBER ****************
 export const invitedUserJoinWorkspaceMutationFn = async (
