@@ -7,30 +7,44 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import useAuth from "@/hooks/api/use-auth";
+import { invitedUserJoinWorkspaceMutationFn } from "@/lib/api";
 import { BASE_ROUTE } from "@/routes/common/routePaths";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Loader } from "lucide-react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
 const InviteUser = () => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const params = useParams();
   const inviteCode = params.inviteCode as string;
 
   const { data: authData, isPending } = useAuth();
-  const user = authData?.user;
+  const user = authData?.user;  
 
   const returnUrl = encodeURIComponent(
     `${BASE_ROUTE.INVITE_URL.replace(":inviteCode", inviteCode)}`
   );
 
   const { mutate, isPending: isLoading } = useMutation({
-    // mutationFn:
+    mutationFn: invitedUserJoinWorkspaceMutationFn,
   });
 
   const handleSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
+    mutate(inviteCode, {
+      onSuccess: (data) => {
+        queryClient.resetQueries({
+          queryKey: ["userWorkspaces"],
+        });
+        navigate(`/workspace/${data.workspaceId}`);
+      },
+
+      onError: (error) => {
+        // error toast msg
+      },
+    });
   };
 
   return (
@@ -47,11 +61,11 @@ const InviteUser = () => {
           <Card>
             <CardHeader className="text-center">
               <CardTitle className="text-xl">
-                Hey there! You're invited to join a TeamSync Workspace!
+                Hey there! You're invited to join a TeamCollab Workspace!
               </CardTitle>
 
               <CardDescription>
-                Looks like you need to be logged into your TeamSync account to
+                Looks like you need to be logged into your TeamCollab account to
                 join this Workspace.
               </CardDescription>
             </CardHeader>
