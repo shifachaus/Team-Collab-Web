@@ -76,3 +76,17 @@ export const getWorkspaceAnalyticsQueryFn = async (
   const response = await API.get(`/workspace/analytics/${workspaceId}`);
   return response.data;
 };
+
+//*******MEMBER ****************
+export const invitedUserJoinWorkspaceMutationFn = async (
+  iniviteCode: string
+): Promise<{
+  message: string;
+  workspaceId: string;
+}> => {
+  const response = await API.post(`/member/workspace/${iniviteCode}/join`);
+  return response.data;
+};
+
+//*******PROJECT ****************
+//*******TASKS ****************
