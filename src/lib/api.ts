@@ -31,11 +31,28 @@ export const loginMutationFn = async (
 export const logoutMutationFn = async () => await API.post("/auth/logout");
 
 // WORKSPACE
-
 export const createWorkspaceMutationFn = async (
   data: CreateWorkspaceType
 ): Promise<CreateWorkspaceResponseType> => {
   const response = await API.post(`/workspace/create/new`, data);
+  return response.data;
+};
+
+export const editeWorkspaceMutationFn = async ({
+  workspaceId,
+  data,
+}: EditWorkspaceType) => {
+  const response = await API.put(`/workspace/update/${workspaceId}`, data);
+  return response.data;
+};
+
+export const deleteWorkspaceMutationFn = async (
+  workspaceId: string
+): Promise<{
+  message: string;
+  currentWorkspace: string;
+}> => {
+  const response = await API.put(`/workspace/delete/${workspaceId}`);
   return response.data;
 };
 
@@ -49,13 +66,5 @@ export const getWorkspaceByIdQueryFn = async (
   workspaceId: string
 ): Promise<WorkspaceByIdResponseType> => {
   const response = await API.get(`/workspace/${workspaceId}`);
-  return response.data;
-};
-
-export const editeWorkspaceMutationFn = async ({
-  workspaceId,
-  data,
-}: EditWorkspaceType) => {
-  const response = await API.put(`/workspace/update/${workspaceId}`, data);
   return response.data;
 };

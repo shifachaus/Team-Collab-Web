@@ -1,4 +1,7 @@
 import EditWorkspaceForm from "@/components/worksapce/edit-workspace-form";
+import DeleteWorkspaceCard from "@/components/worksapce/settings/delete-workspace-card";
+import { Permission } from "@/constant";
+import withPermission from "@/hoc/with-permission";
 
 const Settings = () => {
   return (
@@ -15,6 +18,7 @@ const Settings = () => {
               <EditWorkspaceForm />
             </div>
             <div className="pt-2">
+              <DeleteWorkspaceCard />
             </div>
           </div>
       </main>
@@ -22,4 +26,6 @@ const Settings = () => {
   );
 };
 
-export default Settings;
+const SettingsWithPermission= withPermission(Settings, Permission.MANAGE_WORKSPACE_SETTINGS)
+
+export default SettingsWithPermission;
