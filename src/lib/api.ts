@@ -9,6 +9,7 @@ import type {
   CreateWorkspaceResponseType,
   CreateWorkspaceType,
   CurrentUserResponseType,
+  EditProjectPayloadType,
   EditWorkspaceType,
   LoginResponseType,
   LoginType,
@@ -167,5 +168,18 @@ export const getProjectAnalyticsQueryFn = async ({
   );
   return response.data;
 };
+
+export const editProjectMutationFn = async ({
+  projectId,
+  workspaceId,
+  data,
+}: EditProjectPayloadType): Promise<ProjectResponseType> => {
+  const response = await API.put(
+    `/project/${projectId}/workspace/${workspaceId}/update`,
+    data
+  );
+  return response.data;
+};
+
 
 //*******TASKS ****************

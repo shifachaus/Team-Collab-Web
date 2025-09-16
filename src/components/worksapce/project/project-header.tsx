@@ -4,6 +4,7 @@ import useWorkspaceId from "@/hooks/use-workspace-id";
 import { getProjectByIdQueryFn } from "@/lib/api";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
+import EditProjectDialog from "./edit-project-dialog";
 
 const ProjectHeader = () => {
   const param = useParams();
@@ -47,7 +48,7 @@ const ProjectHeader = () => {
           {renderContent()}
         </h2>
         <PermissionsGuard requiredPermission={Permission.EDIT_PROJECT}>
-          Project
+        <EditProjectDialog project={project} />
         </PermissionsGuard>
       </div>
       Tasks
