@@ -3,7 +3,6 @@ import { Permission } from "@/constant";
 import useWorkspaceId from "@/hooks/use-workspace-id";
 import { getProjectByIdQueryFn } from "@/lib/api";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import React from "react";
 import { useParams } from "react-router-dom";
 
 const ProjectHeader = () => {
