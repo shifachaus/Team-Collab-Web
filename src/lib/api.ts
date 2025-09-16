@@ -1,14 +1,19 @@
 import type {
   AllMembersInWorkspaceResponseType,
+  AllProjectPayloadType,
+  AllProjectResponseType,
   AllWorkspaceResponseType,
   AnalyticsResponseType,
   ChangeWorkspaceMemberRoleType,
+  CreateProjectPayloadType,
   CreateWorkspaceResponseType,
   CreateWorkspaceType,
   CurrentUserResponseType,
   EditWorkspaceType,
   LoginResponseType,
   LoginType,
+  ProjectByIdPayloadType,
+  ProjectResponseType,
   RegisterType,
   WorkspaceByIdResponseType,
 } from "@/types/api.type";
@@ -109,4 +114,27 @@ export const invitedUserJoinWorkspaceMutationFn = async (
 };
 
 //*******PROJECT ****************
+export const getProjectsInWorkspaceQueryFn = async ({
+  workspaceId,
+  pageSize = 10,
+  pageNumber = 1,
+}: AllProjectPayloadType): Promise<AllProjectResponseType> => {
+  const response = await API.get(
+    `/project/workspace/${workspaceId}/all?pageSize=${pageSize}&pageNumber=${pageNumber}`
+  );
+  return response.data;
+};
+
+export const deleteProjectMutationFn = async ({
+  workspaceId,
+  projectId,
+}: ProjectByIdPayloadType): Promise<{
+  message: string;
+}> => {
+  const response = await API.delete(
+    `/project/${projectId}/workspace/${workspaceId}/delete`
+  );
+  return response.data;
+};
+
 //*******TASKS ****************

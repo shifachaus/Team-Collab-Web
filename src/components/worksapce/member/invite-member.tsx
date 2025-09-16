@@ -61,9 +61,10 @@ const InviteMember = () => {
             />
             <Button
               disabled={false}
-              className="shrink-0"
+              className="shrink-0 bg-blue-600 text-white hover:bg-blue-700 cursor-pointer"
               size="icon"
               onClick={handleCopy}
+              variant="secondary"
             >
               {copied ? <CheckIcon /> : <CopyIcon />}
             </Button>
