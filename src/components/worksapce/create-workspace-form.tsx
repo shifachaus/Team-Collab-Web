@@ -67,11 +67,11 @@ const WorkspaceForm = ({ onClose }: { onClose: () => void }) => {
         <div className="mb-5">
           <h1
             className="text-2xl tracking-[-0.16px] dark:text-[#fcfdffef] font-semibold mb-1.5
-           text-center sm:text-left"
+          sm:text-left text-center"
           >
             Let's build a Workspace
           </h1>
-          <p className="text-muted-foreground text-lg leading-tight">
+          <p className="text-muted-foreground text-sms leading-tight">
             Boost your productivity by making it easier for everyone to access
             projects in one location.
           </p>
@@ -91,7 +91,7 @@ const WorkspaceForm = ({ onClose }: { onClose: () => void }) => {
                     <FormControl>
                       <Input
                         placeholder="Burger's Co."
-                        className="!h-[48px]"
+                       className="!h-[48px] text-sm md:text-base"
                         {...field}
                       />
                     </FormControl>
@@ -110,7 +110,7 @@ const WorkspaceForm = ({ onClose }: { onClose: () => void }) => {
                 name="description"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="dark:text-[#f1f7feb5] text-sm">
+                    <FormLabel className="dark:text-[#f1f7feb5] text-sm ">
                       Workspace description
                       <span className="text-xs font-extralight ml-2">
                         Optional
@@ -119,6 +119,7 @@ const WorkspaceForm = ({ onClose }: { onClose: () => void }) => {
                     <FormControl>
                       <Textarea
                         rows={6}
+                          className="!h-[48px] text-sm md:text-base"
                         placeholder="Our team organizes marketing projects and tasks here."
                         {...field}
                       />

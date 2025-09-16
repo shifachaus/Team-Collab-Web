@@ -11,6 +11,7 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
   SidebarFooter,
+  SidebarRail,
   // useSidebar,
 } from "@/components/ui/sidebar";
 import {
@@ -51,6 +52,7 @@ const Asidebar = () => {
             </Link>
           </div>
         </SidebarHeader>
+
         <SidebarContent className=" !mt-0 dark:bg-background">
           <SidebarGroup className="!py-0">
             <SidebarGroupContent>
@@ -62,7 +64,7 @@ const Asidebar = () => {
             </SidebarGroupContent>
           </SidebarGroup>
         </SidebarContent>
-
+        
         <SidebarFooter className="dark:bg-background">
           <SidebarMenu>
             <SidebarMenuItem>
@@ -80,7 +82,6 @@ const Asidebar = () => {
                     >
                       <Avatar className="h-8 w-8 rounded-full">
                         <AvatarImage src={user?.profilePicture || ""} />
-
                         <AvatarFallback className="rounded-full border border-gray-500">
                           {user?.name?.split(" ")?.[0]?.charAt(0)}
                           {user?.name?.split(" ")?.[1]?.charAt(0)}
@@ -113,6 +114,7 @@ const Asidebar = () => {
             </SidebarMenuItem>
           </SidebarMenu>
         </SidebarFooter>
+        <SidebarRail />
       </Sidebar>
 
       <LogoutDialog isOpen={isOpen} setIsOpen={setIsOpen} />

@@ -114,6 +114,17 @@ export const invitedUserJoinWorkspaceMutationFn = async (
 };
 
 //*******PROJECT ****************
+export const createProjectMutationFn = async ({
+  workspaceId,
+  data,
+}: CreateProjectPayloadType): Promise<ProjectResponseType> => {
+  const response = await API.post(
+    `/project/workspace/${workspaceId}/create`,
+    data
+  );
+  return response.data;
+};
+
 export const getProjectsInWorkspaceQueryFn = async ({
   workspaceId,
   pageSize = 10,

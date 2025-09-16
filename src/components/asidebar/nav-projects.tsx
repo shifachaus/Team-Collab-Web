@@ -47,6 +47,7 @@ const NavProjects = () => {
   const { isMobile } = useSidebar();
 
   const { onOpen } = useCreateProjectDialog();
+  
   const { context, open, onOpenDialog, onCloseDialog } = useConfirmDialog();
 
   const [pageNumber] = useState(1);
