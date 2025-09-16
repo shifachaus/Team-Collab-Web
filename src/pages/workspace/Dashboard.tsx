@@ -4,9 +4,12 @@ import RecentMembers from "@/components/worksapce/member/recent-members";
 import RecentProjects from "@/components/worksapce/project/recent-projects";
 import RecentTasks from "@/components/worksapce/task/recent-tasks";
 import WorkspaceAnalytics from "@/components/worksapce/workspace-analytics";
+import useCreateProjectDialog from "@/hooks/use-create-project-dialog";
 import { Plus } from "lucide-react";
 
 const WorkspaceDashboard = () => {
+  const { onOpen } = useCreateProjectDialog();
+  
   return (
     <main className="flex flex-1 flex-col py-4 md:pt-3">
     <div className="flex items-center justify-between space-y-2 mb-6">
@@ -18,7 +21,7 @@ const WorkspaceDashboard = () => {
           Here&apos;s an overview for this workspace!
         </p>
       </div>
-      <Button>
+      <Button onClick={onOpen}>
         <Plus />
         New Project
       </Button>
