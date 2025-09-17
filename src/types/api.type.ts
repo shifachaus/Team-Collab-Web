@@ -1,5 +1,10 @@
-import type { PermissionType } from "@/constant";
+import type {
+  PermissionType,
+  TaskPriorityEnumType,
+  TaskStatusEnumType,
+} from "@/constant";
 
+//******* USER TYPE ****************
 export type LoginType = {
   email: string;
   password: string;
@@ -41,7 +46,7 @@ export type CurrentUserResponseType = {
   user: UserType;
 };
 
-// WORKSPACES TYPES
+//******* WORKSPACE TYPES ****************
 export type WorkspaceType = {
   _id: string;
   name: string;
@@ -145,7 +150,7 @@ export type RoleType = {
   name: string;
 };
 
-// PROJECT TYPES
+//******* PROJECT TYPES ****************
 export type ProjectType = {
   _id: string;
   name: string;
@@ -204,4 +209,74 @@ export type AllProjectResponseType = {
 export type ProjectByIdPayloadType = {
   workspaceId: string;
   projectId: string;
+};
+
+//******* TASK TYPES ****************
+
+export type createTaskPayloadType = {
+  workspaceId: string;
+  projectId: string;
+  data: {
+    title: string;
+    description: string;
+    priority: TaskPriorityEnumType;
+    status: TaskStatusEnumType;
+    assignedTo: string;
+    dueDate: string;
+  };
+};
+
+export type EditTaskPayloadType = {
+  taskId: string;
+  workspaceId: string;
+  projectId: string;
+  data: Partial<{
+    title: string;
+    description: string;
+    priority: TaskPriorityEnumType;
+    status: TaskStatusEnumType;
+    assignedTo: string;
+    dueDate: string;
+  }>;
+};
+
+export type TaskType = {
+  _id: string;
+  title: string;
+  descritpion?: string;
+  project?: {
+    _id: string;
+    emoji: string;
+    name: string;
+  };
+  priority: TaskPriorityEnumType;
+  status: TaskStatusEnumType;
+  assignedTo: {
+    _id: string;
+    name: string;
+    profilePicture: string | null;
+  } | null;
+  createdBy?: string;
+  dueDate: string;
+  taskCode: string;
+  createdAt?: string;
+  updatedAt?: string;
+};
+
+export type AllTaskResponseType = {
+  message: string;
+  tasks: TaskType[];
+  pagination: PaginationType;
+};
+
+export type AllTaskPayloadType = {
+  workspaceId: string;
+  projectId?: string | null;
+  keyword?: string | null;
+  priority?: TaskPriorityEnumType | null;
+  status?: TaskStatusEnumType | null;
+  assignedTo?: string | null;
+  dueDate?: string | null;
+  pageNumber?: number | null;
+  pageSize?: number | null;
 };

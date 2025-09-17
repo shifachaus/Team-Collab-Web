@@ -12,8 +12,8 @@ export const TaskPriorityEnum = {
   HIGH: "HIGH",
 } as const;
 
-export type TaskStatusEnum = keyof typeof TaskStatusEnum;
-export type TaskPriorityEnum = keyof typeof TaskPriorityEnum;
+export type TaskStatusEnumType = keyof typeof TaskStatusEnum;
+export type TaskPriorityEnumType = keyof typeof TaskPriorityEnum;
 
 export const Permission = {
   CREATE_WORKSPACE: "CREATE_WORKSPACE",

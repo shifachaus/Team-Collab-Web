@@ -6,6 +6,7 @@ import type {
   AnalyticsResponseType,
   ChangeWorkspaceMemberRoleType,
   CreateProjectPayloadType,
+  createTaskPayloadType,
   CreateWorkspaceResponseType,
   CreateWorkspaceType,
   CurrentUserResponseType,
@@ -181,5 +182,16 @@ export const editProjectMutationFn = async ({
   return response.data;
 };
 
-
 //*******TASKS ****************
+
+export const createTaskMutationFn = async ({
+  workspaceId,
+  projectId,
+  data,
+}: createTaskPayloadType) => {
+  const response = await API.post(
+    `/task/project/${projectId}/workspace/${workspaceId}/create`,
+    data
+  );
+  return response.data;
+};
