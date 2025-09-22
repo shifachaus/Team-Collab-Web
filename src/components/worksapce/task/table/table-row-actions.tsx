@@ -15,6 +15,9 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import useWorkspaceId from "@/hooks/use-workspace-id";
 import type { TaskType } from "@/types/api.type";
 import EditTaskDialog from "../edit-task-dialog";
+import { deleteTaskMutationFn } from "@/lib/api";
+import { toast } from "@/hooks/use-toast";
+import ConfirmDialog from "@/components/resuable/confirm-dialog";
 
 interface DataTableRowActionsProps {
   row: Row<TaskType>;
@@ -28,14 +31,38 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
   const workspaceId = useWorkspaceId();
 
   const { mutate, isPending } = useMutation({
-    // mutationFn: deleteTaskMutationFn,
+    mutationFn: deleteTaskMutationFn,
   });
 
   const task = row.original;
   const taskId = task._id as string;
   const taskCode = task.taskCode;
 
-  const handleConfirm = () => {};
+  const handleConfirm = () => {
+    mutate(
+      { workspaceId, taskId },
+      {
+        onSuccess: (data) => {
+          queryClient.invalidateQueries({
+            queryKey: ["all-tasks", workspaceId],
+          });
+          toast({
+            title: "Success",
+            description: data.message,
+            variant: "success",
+          });
+          setTimeout(() => setOpenDialog(false), 100);
+        },
+        onError: (error) => {
+          toast({
+            title: "Error",
+            description: error.message,
+            variant: "destructive",
+          });
+        },
+      }
+    );
+  };
 
   return (
     <>
@@ -71,10 +98,23 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
       </DropdownMenu>
 
       {/* Edit Task Dialog */}
-      <EditTaskDialog task={task} isOpen={openEditDialog} onClose={() => setOpenEditDialog(false)} />
-
+      <EditTaskDialog
+        task={task}
+        isOpen={openEditDialog}
+        onClose={() => setOpenEditDialog(false)}
+      />
 
       {/* Delete Task Confirmation Dialog */}
+      <ConfirmDialog
+        isOpen={openDeleteDialog}
+        isLoading={isPending}
+        onClose={() => setOpenDialog(false)}
+        onConfirm={handleConfirm}
+        title="Delete Task"
+        description={`Are you sure you want to delete ${taskCode}?`}
+        confirmText="Delete"
+        cancelText="Cancel"
+      />
     </>
   );
 }
