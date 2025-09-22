@@ -24,6 +24,7 @@ import { Loader } from "lucide-react";
 import { editProjectMutationFn } from "@/lib/api";
 import { Input } from "@/components/ui/input";
 import EmojiPickerComponent from "@/components/emoji-picker";
+import { toast } from "@/hooks/use-toast";
 
 const EditProjectForm = (props: {
   project?: ProjectType;
@@ -57,7 +58,6 @@ const EditProjectForm = (props: {
     },
   });
 
-
   useEffect(() => {
     if (project) {
       setEmoji(project.emoji);
@@ -87,12 +87,20 @@ const EditProjectForm = (props: {
           queryKey: ["allprojects", workspaceId],
         });
 
-        // toast
+        toast({
+          title: "Success",
+          description: data.message,
+          variant: "success",
+        });
 
         setTimeout(() => onClose(), 100);
       },
       onError: (error) => {
-        // toast
+        toast({
+          title: "Error",
+          description: error.message,
+          variant: "destructive",
+        });
       },
     });
   };
@@ -141,7 +149,7 @@ const EditProjectForm = (props: {
                       Project title
                     </FormLabel>
                     <FormControl>
-                      <Input  placeholder="" className="!h-[48px]" {...field} />
+                      <Input placeholder="" className="!h-[48px]" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

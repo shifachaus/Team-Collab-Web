@@ -12,6 +12,7 @@ import {
   SidebarMenuButton,
   SidebarFooter,
   SidebarRail,
+  useSidebar,
   // useSidebar,
 } from "@/components/ui/sidebar";
 import {
@@ -30,12 +31,13 @@ import { Separator } from "../ui/separator";
 import NavMain from "./nav-main";
 import NavProjects from "./nav-projects";
 import LogoutDialog from "./logout-dialog";
+import Logo from "../logo";
 
 const Asidebar = () => {
   const { isLoading, user } = useAuthContext();
   const workspaceId = useWorkspaceId();
 
-  // const { open } = useSidebar();
+  const { open } = useSidebar();
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -44,27 +46,34 @@ const Asidebar = () => {
       <Sidebar collapsible="icon">
         <SidebarHeader className="!py-0 dark:bg-background">
           <div className="flex h-[50px] items-center justify-start w-full px-1">
-            <Link
-              to={`/workspace/${workspaceId}`}
-              className="flex ml-2 items-center gap-2 self-center font-medium"
-            >
-              Team Collab.
-            </Link>
+            <Logo url={`/workspace/${workspaceId}`} />
+            {open && (
+              <Link
+                to={`/workspace/${workspaceId}`}
+                className="hidden md:flex ml-2 items-center gap-2 self-center font-medium"
+              >
+                Team Sync.
+              </Link>
+            )}
           </div>
         </SidebarHeader>
 
-        <SidebarContent className=" !mt-0 dark:bg-background">
-          <SidebarGroup className="!py-0">
+        <SidebarContent className=" !mt-0 dark:bg-background ">
+          <SidebarGroup className="!py-0 ">
             <SidebarGroupContent>
-              <WorkspaceSwitcher />
-              <Separator />
+              <div className="my-2 ">
+                <div className="pb-0.5">
+                  <WorkspaceSwitcher />
+                </div>
+                <Separator />
+              </div>
               <NavMain />
               <Separator />
               <NavProjects />
             </SidebarGroupContent>
           </SidebarGroup>
         </SidebarContent>
-        
+
         <SidebarFooter className="dark:bg-background">
           <SidebarMenu>
             <SidebarMenuItem>

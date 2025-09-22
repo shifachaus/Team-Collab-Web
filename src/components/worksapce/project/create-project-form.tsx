@@ -24,6 +24,7 @@ import useWorkspaceId from "@/hooks/use-workspace-id";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createProjectMutationFn } from "@/lib/api";
 import EmojiPickerComponent from "@/components/emoji-picker";
+import { toast } from "@/hooks/use-toast";
 
 const CreateProjectForm = ({ onClose }: { onClose: () => void }) => {
   const navigate = useNavigate();
@@ -31,8 +32,6 @@ const CreateProjectForm = ({ onClose }: { onClose: () => void }) => {
   const workspaceId = useWorkspaceId();
 
   const [emoji, setEmoji] = useState("📊");
-
-  
 
   const { mutate, isPending } = useMutation({
     mutationFn: createProjectMutationFn,
@@ -66,8 +65,6 @@ const CreateProjectForm = ({ onClose }: { onClose: () => void }) => {
         ...values,
       },
     };
-
-    
     mutate(payload, {
       onSuccess: (data) => {
         const project = data.project;
@@ -75,13 +72,21 @@ const CreateProjectForm = ({ onClose }: { onClose: () => void }) => {
           queryKey: ["allprojects", workspaceId],
         });
 
-        // toast
+        toast({
+          title: "Success",
+          description: "Project created successfully",
+          variant: "success",
+        });
 
         navigate(`/workspace/${workspaceId}/project/${project._id}`);
         setTimeout(() => onClose(), 500);
       },
       onError: (error) => {
-        // toast
+        toast({
+          title: "Error",
+          description: error.message,
+          variant: "destructive",
+        });
       },
     });
   };

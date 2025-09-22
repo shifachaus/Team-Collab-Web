@@ -19,6 +19,7 @@ import { Popover } from "@/components/ui/popover";
 import { PopoverContent, PopoverTrigger } from "@radix-ui/react-popover";
 import { Button } from "@/components/ui/button";
 import { getAvatarColor, getAvatarFallbackText } from "@/lib/helper";
+import { toast } from "@/hooks/use-toast";
 
 const AllMembers = () => {
   const { user, hasPermission } = useAuthContext();
@@ -51,9 +52,18 @@ const AllMembers = () => {
         queryClient.invalidateQueries({
           queryKey: ["members", workspaceId],
         });
+        toast({
+          title: "Success",
+          description: "Member's role changed successfully",
+          variant: "success",
+        });
       },
       onError: (error) => {
-        // error msg
+        toast({
+          title: "Error",
+          description: error.message,
+          variant: "destructive",
+        });
       },
     });
   };

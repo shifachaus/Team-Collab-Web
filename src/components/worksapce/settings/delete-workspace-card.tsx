@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Permission } from "@/constant";
 import { useAuthContext } from "@/context/auth-provider";
 import useConfirmDialog from "@/hooks/use-confirm-dialog";
+import { toast } from "@/hooks/use-toast";
 import useWorkspaceId from "@/hooks/use-workspace-id";
 import { deleteWorkspaceMutationFn } from "@/lib/api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -32,7 +33,13 @@ const DeleteWorkspaceCard = () => {
         setTimeout(() => onCloseDialog(), 100);
       },
 
-      onError: (error) => {},
+      onError: (error) => {
+        toast({
+          title: "Error",
+          description: error.message,
+          variant: "destructive",
+        });
+      },
     });
   };
 

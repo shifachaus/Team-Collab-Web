@@ -60,7 +60,6 @@ const NavMain = () => {
   ];
 
   return (
-    <SidebarGroup>
     <SidebarMenu>
       {items.map((item) => (
         <SidebarMenuItem key={item.title}>
@@ -73,7 +72,6 @@ const NavMain = () => {
         </SidebarMenuItem>
       ))}
     </SidebarMenu>
-  </SidebarGroup>
   );
 };
 
