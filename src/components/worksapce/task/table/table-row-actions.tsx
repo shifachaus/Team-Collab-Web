@@ -14,6 +14,7 @@ import {
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import useWorkspaceId from "@/hooks/use-workspace-id";
 import type { TaskType } from "@/types/api.type";
+import EditTaskDialog from "../edit-task-dialog";
 
 interface DataTableRowActionsProps {
   row: Row<TaskType>;
@@ -70,6 +71,8 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
       </DropdownMenu>
 
       {/* Edit Task Dialog */}
+      <EditTaskDialog task={task} isOpen={openEditDialog} onClose={() => setOpenEditDialog(false)} />
+
 
       {/* Delete Task Confirmation Dialog */}
     </>

@@ -47,7 +47,6 @@ export default function CreateTaskForm(props: {
   onClose: () => void;
 }) {
   const { projectId, onClose } = props;
-  
 
   const queryClient = useQueryClient();
   const workspaceId = useWorkspaceId();
@@ -108,19 +107,17 @@ export default function CreateTaskForm(props: {
       message: "Project is required",
     }),
 
-    status: z.enum(
-      Object.values(TaskStatusEnum) as [keyof typeof TaskStatusEnum],
-      {
-        required_error: "Status is required",
-      }
-    ),
+    status: z
+      .enum(Object.values(TaskStatusEnum) as [keyof typeof TaskStatusEnum])
+      .refine((value) => value != null, {
+        message: "Status is required",
+      }),
 
-    priority: z.enum(
-      Object.values(TaskPriorityEnum) as [keyof typeof TaskPriorityEnum],
-      {
-        required_error: "Priority is required",
-      }
-    ),
+    priority: z
+      .enum(Object.values(TaskPriorityEnum) as [keyof typeof TaskPriorityEnum])
+      .refine((value) => value != null, {
+        message: "Priority is required",
+      }),
     assignedTo: z.string().trim().min(1, {
       message: "AssignedTo is required",
     }),
@@ -258,7 +255,7 @@ export default function CreateTaskForm(props: {
                         onValueChange={field.onChange}
                         defaultValue={field.value}
                       >
-                        <FormControl  className="w-full">
+                        <FormControl className="w-full">
                           <SelectTrigger>
                             <SelectValue placeholder="Select a project" />
                           </SelectTrigger>
@@ -306,7 +303,7 @@ export default function CreateTaskForm(props: {
                       onValueChange={field.onChange}
                       defaultValue={field.value}
                     >
-                      <FormControl  className="w-full">
+                      <FormControl className="w-full">
                         <SelectTrigger>
                           <SelectValue placeholder="Select a assignee" />
                         </SelectTrigger>
@@ -436,7 +433,7 @@ export default function CreateTaskForm(props: {
                       onValueChange={field.onChange}
                       defaultValue={field.value}
                     >
-                      <FormControl  className="w-full">
+                      <FormControl className="w-full">
                         <SelectTrigger>
                           <SelectValue placeholder="Select a priority" />
                         </SelectTrigger>

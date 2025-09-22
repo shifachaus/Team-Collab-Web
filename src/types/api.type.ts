@@ -243,7 +243,7 @@ export type EditTaskPayloadType = {
 export type TaskType = {
   _id: string;
   title: string;
-  descritpion?: string;
+  description?: string;
   project?: {
     _id: string;
     emoji: string;

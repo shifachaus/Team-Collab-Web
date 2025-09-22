@@ -19,7 +19,8 @@ import type {
   RegisterType,
   WorkspaceByIdResponseType,
   AllTaskPayloadType,
-  AllTaskResponseType
+  AllTaskResponseType,
+  EditTaskPayloadType
 } from "@/types/api.type";
 import API from "./axios-client";
 
@@ -198,8 +199,6 @@ export const createTaskMutationFn = async ({
   return response.data;
 };
 
-
-
 export const getAllTasksQueryFn = async ({
   workspaceId,
   keyword,
@@ -228,3 +227,15 @@ export const getAllTasksQueryFn = async ({
   return response.data;
 };
 
+export const editTaskMutationFn = async ({
+  taskId,
+  projectId,
+  workspaceId,
+  data,
+}: EditTaskPayloadType): Promise<{message: string;}> => {
+  const response = await API.put(
+    `/task/${taskId}/project/${projectId}/workspace/${workspaceId}/update/`,
+    data
+  );
+  return response.data;
+};
