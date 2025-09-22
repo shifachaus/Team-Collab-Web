@@ -1,5 +1,6 @@
 import ProjectAnalytics from "@/components/worksapce/project/project-analytics";
 import ProjectHeader from "@/components/worksapce/project/project-header";
+import TaskTable from "@/components/worksapce/task/task-table";
 import { Separator } from "@radix-ui/react-separator";
 
 const ProjectDetails = () => {
@@ -10,7 +11,7 @@ const ProjectDetails = () => {
         <ProjectAnalytics />
         <Separator />
         {/* {Task Table} */}
-    
+        <TaskTable />
       </div>
     </div>
   );
