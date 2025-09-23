@@ -12,13 +12,17 @@ import { Button } from "@/components/ui/button";
 import { Loader } from "lucide-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { logoutMutationFn } from "@/lib/api";
+import { useStore } from "@/store/store";
+import { toast } from "@/hooks/use-toast";
 
 const LogoutDialog = (props: {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const { isOpen, setIsOpen } = props;
+
   const navigate = useNavigate();
+  const { clearAccessToken } = useStore();
 
   const queryClient = useQueryClient();
 
@@ -28,10 +32,17 @@ const LogoutDialog = (props: {
       queryClient.resetQueries({
         queryKey: ["authUser"],
       });
+      clearAccessToken();
       navigate("/");
       setIsOpen(false);
     },
-    onError: () => {},
+    onError: (error) => {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
   });
 
   // Handle logout action

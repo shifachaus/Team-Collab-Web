@@ -12,6 +12,7 @@ export type LoginType = {
 
 export type LoginResponseType = {
   message: string;
+  access_token:string;
   user: {
     _id: string;
     currentWorkspace: string;

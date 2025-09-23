@@ -23,11 +23,15 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useStore } from "@/store/store";
+import { toast } from "@/hooks/use-toast";
 
 const SignIn = () => {
   const navigate = useNavigate();
   const [serachParams] = useSearchParams();
   const returnUrl = serachParams.get("returnUrl");
+
+  const { setAccessToken } = useStore();
 
   const { mutate, isPending } = useMutation({
     mutationFn: loginMutationFn,
@@ -56,11 +60,19 @@ const SignIn = () => {
 
     mutate(values, {
       onSuccess: (data) => {
+        const accessToken = data.access_token;
         const user = data.user;
+        setAccessToken(accessToken);
         const decodeUrl = returnUrl ? decodeURIComponent(returnUrl) : null;
         navigate(decodeUrl || `/workspace/${user.currentWorkspace}`);
       },
-      onError: (error) => {},
+      onError: (error) => {
+        toast({
+          title: "Error",
+          description: error.message,
+          variant: "destructive",
+        });
+      },
     });
   };
   return (

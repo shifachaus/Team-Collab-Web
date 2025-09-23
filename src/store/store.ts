@@ -1,0 +1,45 @@
+import { create, type StateCreator } from "zustand";
+import {
+  createJSONStorage,
+  devtools,
+  persist,
+  subscribeWithSelector,
+} from "zustand/middleware";
+import { immer } from 'zustand/middleware/immer'
+import createSelectors from "./selectors";
+
+type AuthState = {
+  accessToken: string | null;
+  user: null;
+  setAccessToken: (token: string) => void;
+  clearAccessToken: () => void;
+};
+
+const createAuthSlice: StateCreator<AuthState> = (set) => ({
+  accessToken: null,
+  user: null,
+  setAccessToken: (token) => set({ accessToken: token }),
+  clearAccessToken: () => set({ accessToken: null }),
+});
+
+type StoreType = AuthState;
+
+export const useStoreBase = create<StoreType>()(
+  devtools(
+    persist(
+      subscribeWithSelector(
+        immer((...a) => ({
+          ...createAuthSlice(...a),
+        }))
+      ),
+      {
+        name: "session-storage",
+        storage: createJSONStorage(() => localStorage),
+      }
+    )
+  )
+);
+
+export const useStore = createSelectors(useStoreBase);
+
+
