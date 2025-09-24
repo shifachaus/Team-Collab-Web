@@ -23,6 +23,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import GoogleOauthButton from "@/components/auth/google-oauth-button";
+import Logo from "@/components/logo";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -73,6 +74,7 @@ const SignUp = () => {
           to="/"
           className="flex items-center gap-2 self-center font-medium"
         >
+          <Logo />
           Team Collab.
         </Link>
         <div className="flex flex-col gap-6">
