@@ -178,7 +178,7 @@ const EditTaskForm = ({
                     value={field.value}
                     defaultValue={field.value}
                   >
-                    <FormControl>
+                    <FormControl className="w-full">
                       <SelectTrigger>
                         <SelectValue placeholder="Select an assignee" />
                       </SelectTrigger>
@@ -207,7 +207,7 @@ const EditTaskForm = ({
                   <FormLabel>Due Date</FormLabel>
                   <Popover>
                     <PopoverTrigger asChild>
-                      <FormControl>
+                      <FormControl >
                         <Button variant="outline">
                           {field.value
                             ? format(field.value, "PPP")
@@ -241,7 +241,7 @@ const EditTaskForm = ({
                     value={field.value}
                     defaultValue={field.value}
                   >
-                    <FormControl>
+                    <FormControl className="w-full">
                       <SelectTrigger>
                         <SelectValue placeholder="Select status" />
                       </SelectTrigger>
@@ -271,7 +271,7 @@ const EditTaskForm = ({
                     value={field.value}
                     defaultValue={field.value}
                   >
-                    <FormControl>
+                    <FormControl className="w-full">
                       <SelectTrigger>
                         <SelectValue placeholder="Select priority" />
                       </SelectTrigger>
