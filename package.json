@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "local-build": "vite build",
+     "build:netlify": "CI= vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },
