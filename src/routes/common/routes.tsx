@@ -8,6 +8,7 @@ import Settings from "@/pages/workspace/Settings";
 import Members from "@/pages/workspace/Members";
 import Tasks from "@/pages/workspace/Tasks";
 import WorkspaceDashboard from "@/pages/workspace/Dashboard";
+import Activity from "@/pages/workspace/Activity";
 
 export const authenticationRoutePaths = [
   {
@@ -29,33 +30,38 @@ export const authenticationRoutePaths = [
 export const protectedRoutePaths = [
   {
     path: PROTECTED_ROUTES.WORKSPACE,
-    element: <WorkspaceDashboard/>,
+    element: <WorkspaceDashboard />,
   },
 
   {
     path: PROTECTED_ROUTES.TASKS,
-    element: <Tasks/>,
+    element: <Tasks />,
   },
 
   {
     path: PROTECTED_ROUTES.MEMBERS,
-    element: <Members/>,
+    element: <Members />,
   },
 
   {
     path: PROTECTED_ROUTES.SETTINGS,
-    element: <Settings/>,
+    element: <Settings />,
   },
 
   {
     path: PROTECTED_ROUTES.PROJECT_DETAILS,
-    element: <ProjectDetails/>,
+    element: <ProjectDetails />,
+  },
+
+  {
+    path: PROTECTED_ROUTES.ACTIVITY,
+    element: <Activity />,
   },
 ];
 
 export const baseRoutePath = [
   {
     path: BASE_ROUTE.INVITE_URL,
-    element: <InviteUser/>,
+    element: <InviteUser />,
   },
 ];

@@ -1,4 +1,6 @@
 import type {
+  AuditActionEnumType,
+  AuditEntityEnumType,
   PermissionType,
   TaskPriorityEnumType,
   TaskStatusEnumType,
@@ -12,7 +14,7 @@ export type LoginType = {
 
 export type LoginResponseType = {
   message: string;
-  access_token:string;
+  access_token: string;
   user: {
     _id: string;
     currentWorkspace: string;
@@ -280,4 +282,68 @@ export type AllTaskPayloadType = {
   dueDate?: string | null;
   pageNumber?: number | null;
   pageSize?: number | null;
+};
+
+//******* AUDIT LOG TYPES ****************
+export type AuditLog = {
+  _id: string;
+  workspaceId: string;
+  projectId?: string | null;
+  taskId?: string | null;
+  action: AuditActionEnumType;
+  entityType: AuditEntityEnumType;
+  createdBy: {
+    _id: string;
+    name: string;
+    email: string;
+    profilePicture: string | null;
+  };
+  metadata?: {
+    comment: string;
+
+    projectName?: string;
+    workspaceName?: string;
+    taskName?: string;
+    taskCodeId?:string
+    oldValue?: {
+      name: string;
+      description: string;
+      status:string,
+      priority:string
+    };
+    newValue?: {
+      name: string;
+      description: string;
+      status:string,
+      priority:string
+    };
+    assignedTo?: {
+      _id: string;
+      name: string;
+      email: string;
+      profilePicture: string | null;
+    };
+
+    updatedBy: {
+      _id: string;
+      name: string;
+      email: string;
+    };
+    updaetdAt: Date;
+
+    deletedBy: {
+      _id: string;
+      name: string;
+      email: string;
+      profilePicture: string | null;
+    };
+    deletedAt: Date;
+  };
+
+  createdAt: Date;
+};
+
+export type auditLogResponseType = {
+  message: string;
+  auditlog: AuditLog[];
 };

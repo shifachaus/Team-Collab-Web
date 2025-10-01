@@ -9,6 +9,7 @@ import useWorkspaceId from "@/hooks/use-workspace-id";
 import { useAuthContext } from "@/context/auth-provider";
 import { Permission } from "@/constant";
 import {
+  Activity,
   CheckCircle,
   LayoutDashboard,
   Settings,
@@ -47,6 +48,12 @@ const NavMain = () => {
       title: "Members",
       url: `/workspace/${workspaceId}/members`,
       icon: Users,
+    },
+
+    {
+      title: "Activity",
+      url: `/workspace/${workspaceId}/activity`,
+      icon: Activity,
     },
     ...(canManageSettings
       ? [

@@ -20,7 +20,8 @@ import type {
   WorkspaceByIdResponseType,
   AllTaskPayloadType,
   AllTaskResponseType,
-  EditTaskPayloadType
+  EditTaskPayloadType,
+  auditLogResponseType
 } from "@/types/api.type";
 import API from "./axios-client";
 
@@ -251,6 +252,15 @@ export const deleteTaskMutationFn = async ({
 }> => {
   const response = await API.delete(
     `task/${taskId}/workspace/${workspaceId}/delete`
+  );
+  return response.data;
+};
+
+
+//******* Audit log ****************
+export const getAuditLogsQueryFn = async (workspaceId:string): Promise<auditLogResponseType> => {
+  const response = await API.get(
+    `/auditlog/workspace/${workspaceId}`
   );
   return response.data;
 };
