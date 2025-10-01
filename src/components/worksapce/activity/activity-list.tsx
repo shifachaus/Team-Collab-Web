@@ -1,8 +1,9 @@
 import useWorkspaceId from "@/hooks/use-workspace-id";
 import { getAuditLogsQueryFn } from "@/lib/api";
 import { useQuery } from "@tanstack/react-query";
-import { Loader } from "lucide-react";
+import { Calendar, Loader } from "lucide-react";
 import ActivityItem from "./activit-item";
+import { format } from "date-fns";
 
 const ActivityList = () => {
   const workspaceId = useWorkspaceId();
@@ -16,6 +17,15 @@ const ActivityList = () => {
 
   const auditLogs = data?.auditlog || [];
 
+  const groupLogsByDate = (logs: any[]) => {
+    return logs.reduce((groups: Record<string, any[]>, log) => {
+      const date = format(new Date(log.createdAt), "MMM d, yyyy");
+      if (!groups[date]) groups[date] = [];
+      groups[date].push(log);
+      return groups;
+    }, {});
+  };
+
   return (
     <div className="flex flex-col space-y-6">
       {isPending ? (
@@ -27,12 +37,26 @@ const ActivityList = () => {
         </div>
       )}
 
-      <ol className="mt-2 space-y-4">
-        {auditLogs?.map((logs) => {
+      <ol className="mt-2 space-y-6">
+        {Object.entries(groupLogsByDate(auditLogs || [])).map(
+          ([date, logs]) => (
+            <li key={date} className="space-y-3">
+              {/* Date header */}
+              <div className="flex items-center gap-1">
+                <Calendar size={14} />{" "}
+                <h3 className="text-sm font-semibold text-gray-500">
+                  Activity on {date}
+                </h3>
+              </div>
 
-          
-          return <ActivityItem key={logs._id} auditlogs={logs}/>;
-        })}
+              <ol className="space-y-4 ml-1">
+                {logs.map((log) => (
+                  <ActivityItem key={log._id} auditlogs={log} />
+                ))}
+              </ol>
+            </li>
+          )
+        )}
       </ol>
     </div>
   );

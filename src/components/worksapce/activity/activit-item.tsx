@@ -13,8 +13,10 @@ interface Metadata {
   workspaceName?: string;
 }
 
+
 const ActivityItem: React.FC<ActivityItemProps> = ({ auditlogs }) => {
   const { action, entityType, createdBy, metadata, createdAt } = auditlogs;
+
 
   const name = createdBy?.name;
   const initials = getAvatarFallbackText(name);
