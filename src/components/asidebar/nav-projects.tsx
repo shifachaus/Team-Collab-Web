@@ -35,6 +35,7 @@ import ConfirmDialog from "../resuable/confirm-dialog";
 import useGetProjectsInWorkspaceQuery from "@/hooks/api/use-get-projects";
 import type { PaginationType } from "@/types/api.type";
 import { deleteProjectMutationFn } from "@/lib/api";
+import { toast } from "@/hooks/use-toast";
 
 const NavProjects = () => {
   const navigate = useNavigate();
@@ -47,7 +48,7 @@ const NavProjects = () => {
   const { isMobile } = useSidebar();
 
   const { onOpen } = useCreateProjectDialog();
-  
+
   const { context, open, onOpenDialog, onCloseDialog } = useConfirmDialog();
 
   const [pageNumber] = useState(1);
@@ -88,14 +89,21 @@ const NavProjects = () => {
           queryClient.invalidateQueries({
             queryKey: ["allprojects", workspaceId],
           });
-          // toast
-          console.log(data.message, "DELETE PROJECT!!");
+          toast({
+            title: "Success",
+            description: data.message,
+            variant: "success",
+          });
 
           navigate(`/workspace/${workspaceId}`);
           setTimeout(() => onCloseDialog(), 100);
         },
         onError: (error) => {
-          // toast
+          toast({
+            title: "Error",
+            description: error.message,
+            variant: "destructive",
+          });
         },
       }
     );
