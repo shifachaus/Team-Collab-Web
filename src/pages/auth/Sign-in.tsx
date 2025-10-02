@@ -70,7 +70,7 @@ const SignIn = () => {
       onError: (error) => {
         toast({
           title: "Error",
-          description: error.message,
+          description: error.response.data.message,
           variant: "destructive",
         });
       },

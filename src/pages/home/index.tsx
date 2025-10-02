@@ -1,13 +1,18 @@
+import LogoutDialog from "@/components/asidebar/logout-dialog";
 import AuthButton from "@/components/auth/auth-button";
 import Navbar from "@/components/navbar";
 import useAuth from "@/hooks/api/use-auth";
 import { Users, ClipboardList, History } from "lucide-react";
+import { useState } from "react";
 
 const Home = () => {
   const { data: authData } = useAuth();
+
+   const [isOpen, setIsOpen] = useState(false);
+
   return (
     <>
-      <Navbar />
+      <Navbar setIsOpen={setIsOpen}/>
       <div className="flex flex-col min-h-screen">
         <main className="flex-1">
           <section className="relative bg-gradient-to-b from-white to-blue-50 py-20 md:py-32">
@@ -22,7 +27,7 @@ const Home = () => {
                 </p>
 
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  {authData && <AuthButton authData={authData} />}
+                  <AuthButton authData={authData} />
                 </div>
               </div>
             </div>
@@ -94,6 +99,9 @@ const Home = () => {
           </section>
         </main>
       </div>
+
+      
+      <LogoutDialog isOpen={isOpen} setIsOpen={setIsOpen} />
     </>
   );
 };

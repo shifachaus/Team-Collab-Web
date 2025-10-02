@@ -24,6 +24,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import GoogleOauthButton from "@/components/auth/google-oauth-button";
 import Logo from "@/components/logo";
+import { toast } from "@/hooks/use-toast";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -55,14 +56,16 @@ const SignUp = () => {
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     if (isPending) return;
-
     mutate(values, {
       onSuccess: () => {
-        navigate("/");
+        navigate("/sign-in");
       },
-
       onError: (error) => {
-        console.log(error);
+        toast({
+          title: "Error",
+          description: error.response.data.message,
+          variant: "destructive",
+        });
       },
     });
   };
