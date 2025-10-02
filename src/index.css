@@ -55,8 +55,7 @@ em-emoji-picker {
   --color-card-foreground: hsl(var(--card-foreground));
   --color-popover: hsl(var(--popover));
   --color-popover-foreground: hsl(var(--popover-foreground));
-  --color-primary: hsl(16, 100%, 61%);
-  /* hsl(16, 76%, 50%);*/
+  --color-primary: hsl(216, 31%, 17%); 
   --color-primary-foreground: hsl(var(--primary-foreground));
   --color-secondary: hsl(var(--secondary));
   --color-secondary-foreground: hsl(var(--secondary-foreground));

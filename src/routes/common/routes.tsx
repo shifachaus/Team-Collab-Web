@@ -9,6 +9,7 @@ import Members from "@/pages/workspace/Members";
 import Tasks from "@/pages/workspace/Tasks";
 import WorkspaceDashboard from "@/pages/workspace/Dashboard";
 import Activity from "@/pages/workspace/Activity";
+import Home from "@/pages/home";
 
 export const authenticationRoutePaths = [
   {
@@ -60,6 +61,10 @@ export const protectedRoutePaths = [
 ];
 
 export const baseRoutePath = [
+  {
+    path: BASE_ROUTE.HOME,
+    element: <Home />,
+  },
   {
     path: BASE_ROUTE.INVITE_URL,
     element: <InviteUser />,
