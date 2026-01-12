@@ -10,7 +10,7 @@ const AuthButton: React.FC<AuthButtonProps> = ({ authData }) => {
   if (!authData?.user) {
     return (
       <button
-        className="bg-gray-800 hover:bg-gray-900 text-white px-4 py-2 rounded-sm"
+      className="w-full sm:w-auto bg-gray-800 hover:bg-gray-900 text-white px-6 py-3 rounded-sm transition-colors duration-200 flex items-center justify-center"
         onClick={() => navigate("/sign-in")}
       >
         Get Started
@@ -22,7 +22,7 @@ const AuthButton: React.FC<AuthButtonProps> = ({ authData }) => {
 
   return (
     <button
-      className="w-full sm:w-auto bg-black text-white hover:bg-gray-800 px-6 py-3 rounded-lg transition-colors duration-200 flex items-center justify-center"
+      className="w-full sm:w-auto bg-gray-800 hover:bg-gray-900 text-white px-6 py-3 rounded-sm transition-colors duration-200 flex items-center justify-center"
       onClick={() => navigate(`/workspace/${workspace._id}`)}
     >
       Visit Your Workspace

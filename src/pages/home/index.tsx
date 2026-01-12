@@ -7,21 +7,24 @@ import { useState } from "react";
 
 const Home = () => {
   const { data: authData } = useAuth();
-
-   const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <>
-      <Navbar setIsOpen={setIsOpen}/>
-      <div className="flex flex-col min-h-screen">
+      <Navbar setIsOpen={setIsOpen} />
+
+      <div className="flex flex-col min-h-screen bg-slate-50 ">
         <main className="flex-1">
-          <section className="relative bg-gradient-to-b from-white to-blue-50 py-20 md:py-32">
-            <div className="container mx-auto px-4">
-              <div className="max-w-3xl mx-auto text-center">
-                <h1 className="text-4xl md:text-6xl font-bold mb-6">
+          {/* HERO */}
+          <section className="relative overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-b from-white to-blue-50" />
+            <div className="relative container mx-auto px-6 lg:px-8 py-24 md:py-36">
+              <div className="max-w-3xl mx-auto text-center text-black">
+                <h1 className="text-4xl md:text-6xl font-extrabold leading-tight mb-6">
                   Collaborate smarter, manage better
                 </h1>
-                <p className="text-base md:text-xl text-gray-600 mb-8">
+
+                <p className="text-base md:text-xl text-gray-700 mb-10">
                   Welcome to TeamCollab, your all-in-one platform for seamless
                   team collaboration, project tracking, and task management.
                 </p>
@@ -31,53 +34,63 @@ const Home = () => {
                 </div>
               </div>
             </div>
-            <div
-              className="absolute bottom-0 left-0 right-0 h-24 bg-white"
-              style={{ clipPath: "polygon(0 100%, 100% 100%, 100% 0, 0 100%)" }}
-            />
+
+            {/* Decorative wave */}
+            <div className="absolute bottom-0 left-0 right-0 h-24 bg-slate-50 rounded-t-[100%]" />
           </section>
 
-          <section className="py-16 md:py-24 bg-white">
-            <div className="container mx-auto px-4">
-              <h2 className="text-3xl font-bold text-center mb-12">
-                Work with clarity and confidence
-              </h2>
-              <div className="grid md:grid-cols-3 gap-8">
-                <div className="p-6 rounded-lg border border-gray-100 shadow-sm bg-white">
-                  <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mb-4">
-                    <Users className="h-6 w-6 text-blue-500" />
+          {/* FEATURES */}
+          <section className="py-20 md:py-28 bg-slate-50">
+            <div className="container mx-auto px-6 lg:px-8">
+              <div className="max-w-2xl mx-auto text-center mb-14">
+                <h2 className="text-3xl md:text-4xl font-bold mb-4">
+                  Work with clarity and confidence
+                </h2>
+                <p className="text-gray-600">
+                  Everything you need to organize teams, projects, and workflows
+                  in one place.
+                </p>
+              </div>
+
+              <div className="grid gap-8 md:grid-cols-3">
+                {/* Card 1 */}
+                <div className="group rounded-sm bg-white p-8 shadow-sm border border-gray-100 transition hover:shadow-md hover:-translate-y-1">
+                  <div className="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center mb-5">
+                    <Users className="h-6 w-6 text-blue-600" />
                   </div>
-                  <h3 className="text-xl font-semibold mb-2">
+                  <h3 className="text-xl font-semibold mb-3">
                     Workspace Management
                   </h3>
-                  <p className="text-gray-600">
+                  <p className="text-gray-600 leading-relaxed">
                     Create and manage dedicated workspaces for your teams and
                     clients. Keep everything organized and secure.
                   </p>
                 </div>
 
-                <div className="p-6 rounded-lg border border-gray-100 shadow-sm bg-white">
-                  <div className="w-12 h-12 rounded-full bg-amber-100 flex items-center justify-center mb-4">
-                    <ClipboardList className="h-6 w-6 text-amber-500" />
+                {/* Card 2 */}
+                <div className="group rounded-sm bg-white p-8 shadow-sm border border-gray-100 transition hover:shadow-md hover:-translate-y-1">
+                  <div className="w-12 h-12 rounded-xl bg-amber-100 flex items-center justify-center mb-5">
+                    <ClipboardList className="h-6 w-6 text-amber-600" />
                   </div>
-                  <h3 className="text-xl font-semibold mb-2">
+                  <h3 className="text-xl font-semibold mb-3">
                     Project & Task Tracking
                   </h3>
-                  <p className="text-gray-600">
+                  <p className="text-gray-600 leading-relaxed">
                     Stay on top of projects with task boards, priorities, due
                     dates, and assignments. Everything your team needs to move
                     work forward.
                   </p>
                 </div>
 
-                <div className="p-6 rounded-lg border border-gray-100 shadow-sm bg-white">
-                  <div className="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center mb-4">
-                    <History className="h-6 w-6 text-green-500" />
+                {/* Card 3 */}
+                <div className="group rounded-sm bg-white p-8 shadow-sm border border-gray-100 transition hover:shadow-md hover:-translate-y-1">
+                  <div className="w-12 h-12 rounded-xl bg-green-100 flex items-center justify-center mb-5">
+                    <History className="h-6 w-6 text-green-600" />
                   </div>
-                  <h3 className="text-xl font-semibold mb-2">
+                  <h3 className="text-xl font-semibold mb-3">
                     Collaboration & Audit Logs
                   </h3>
-                  <p className="text-gray-600">
+                  <p className="text-gray-600 leading-relaxed">
                     Collaborate with role-based access, comments, and real-time
                     updates. Stay accountable with detailed audit logs for every
                     action.
@@ -87,12 +100,13 @@ const Home = () => {
             </div>
           </section>
 
-          <section className="py-16 md:py-24 bg-gray-800">
+       
+          <section className="py-20 md:py-28 bg-gradient-to-r from-gray-900 to-gray-800">
             <div className="container mx-auto px-4 text-center">
               <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
                 Ready to empower your team?
               </h2>
-              <p className="text-base text-blue-50 mb-8 max-w-2xl mx-auto">
+              <p className="text-blue-100 mb-8 max-w-2xl mx-auto">
                 Join teams who organize, collaborate, and grow with TeamCollab.
               </p>
             </div>
@@ -100,7 +114,6 @@ const Home = () => {
         </main>
       </div>
 
-      
       <LogoutDialog isOpen={isOpen} setIsOpen={setIsOpen} />
     </>
   );
